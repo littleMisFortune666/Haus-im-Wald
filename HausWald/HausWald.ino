@@ -18,10 +18,10 @@ const int ultraSonicSensorPin = 8;
 Servo myServo;
 const int servoPin = 6;
 int startPositionServo = 0; // Startposition
-int endPositionServo = 90;  // Zielposition
+int endPositionServo = 60;  // Zielposition
 int currentPositionServo = startPositionServo;
 unsigned long previousMillisServo = 0;
-const long durationServo = 3000;                                                     // 3 Sekunden
+const long durationServo = 500;                                                     // 3 Sekunden
 const long stepDelayServo = durationServo / (endPositionServo - startPositionServo); // Zeit pro Grad
 
 int delayForMp3 = 0;
@@ -121,7 +121,7 @@ void loop()
   {
     startMillis = millis();
     mp3Door.play(2);
-    myServo.write(endPositionServo); // Startposition
+   // myServo.write(endPositionServo); // Startposition (entfernt weil weiter unten opendoor aktiviert wurde)
     //openDoor();
     doorShouldOpened = true;
     personDetectedBefore = true;
@@ -136,7 +136,7 @@ void loop()
     {
       Serial.println("\r\n Tür ist geöffnet und kann geschlossenwerden");
       mp3Door.play(2);
-      myServo.write(startPositionServo); // Startposition
+      //myServo.write(startPositionServo); // Startposition (entfernt, weil closedoor aktiviert wurde)
       // closeDoor();
       doorWasOpenOnces = true;
       doorShouldClosed = true;
@@ -151,8 +151,8 @@ void loop()
     personDetected = false;
   }
 
-  //openDoor(doorShouldOpened);
-  //closeDoor(doorShouldClosed);
+  openDoor(doorShouldOpened);
+  closeDoor(doorShouldClosed);
 }
 
 void flickerLED()
@@ -168,6 +168,9 @@ void flickerLED()
   int randomDelay = random(30, 100);
   delay(randomDelay);
 }
+
+
+
 
 void checkIfPersonIsNear()
 {
