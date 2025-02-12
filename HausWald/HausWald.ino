@@ -18,7 +18,7 @@ const int ultraSonicSensorPin = 8;
 Servo myServo;
 const int servoPin = 6;
 int startPositionServo = 0; // Startposition
-int endPositionServo = 60;  // Zielposition
+int endPositionServo = 50;  // Zielposition
 int currentPositionServo = startPositionServo;
 unsigned long previousMillisServo = 0;
 const long durationServo = 500;                                                     // 3 Sekunden
@@ -32,7 +32,7 @@ int brightness = 0; // how bright the LED is
 long duration;
 int distance, audioLevel;
 int doorDurationTillOpen, ellapsedTime;
-int doorDelay = 3000;      // the value is a number of milliseconds
+//int doorDelay = 3000;      // the value is a number of milliseconds
 unsigned long startMillis; // some global variables available anywhere in the program
 unsigned long currentMillis;
 bool personDetected = false;
@@ -137,7 +137,7 @@ void loop()
       Serial.println("\r\n Tür ist geöffnet und kann geschlossenwerden");
       mp3Door.play(2);
       //myServo.write(startPositionServo); // Startposition (entfernt, weil closedoor aktiviert wurde)
-      // closeDoor();
+       //closeDoor();
       doorWasOpenOnces = true;
       doorShouldClosed = true;
       
@@ -151,8 +151,8 @@ void loop()
     personDetected = false;
   }
 
-  openDoor(doorShouldOpened);
-  closeDoor(doorShouldClosed);
+ openDoor(doorShouldOpened);
+ closeDoor(doorShouldClosed);
 }
 
 void flickerLED()
@@ -161,9 +161,9 @@ void flickerLED()
   int mappedBrightness = map(audioLevel, 0, 500, 50, 255);
   mappedBrightness = constrain(mappedBrightness, 50, 255);
 
-  int flicker = random(-150, 50);
+  int flicker = random(-50, 50);
   int brightness = mappedBrightness + flicker;
-  brightness = constrain(brightness, 0, 255);
+  brightness = constrain(brightness, 30, 255);
   analogWrite(firepin, brightness); // LED-Flackern steuern
   int randomDelay = random(30, 100);
   delay(randomDelay);
